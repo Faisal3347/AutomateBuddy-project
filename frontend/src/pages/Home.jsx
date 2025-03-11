@@ -23,9 +23,10 @@ export default function Home() {
         flexDirection: "column", 
         alignItems: "center", 
         justifyContent: "center", 
-        height: "100vh" ,
-        width:"99vw",
-        overflow:"auto"
+        width:"100vw",
+        overflow:"auto",
+        marginTop:'30px'
+       
       }}
     >
       <h1>Restaurant POS</h1>
