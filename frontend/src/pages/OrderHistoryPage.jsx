@@ -13,16 +13,19 @@ export default function OrderHistoryPage() {
 
   const tableData = filteredOrders.map((order) => {
     const orderDate = new Date(order.date);
-console.log(order.items?.items,"faisal");
+console.log(typeof order.items?.items,"faisal");
 
     return {
       "Order ID": order.id,
       Date: orderDate.toLocaleDateString(),
       Time: orderDate.toLocaleTimeString(),
-      "Total Price": order?.items?.finalTotal|| "0",
-      "Items": Array.isArray(order.items) 
-        ? order.items?.items.map(item => `${item.name}` (x`${item.quantity}`)).join(", ") 
-        : "No items", 
+      "Total Price": order?.items?.finalTotal + " $" || "0",
+      "Items":order?.items?.items?.map((data)=>{
+        return (
+          `( ${data?.name} x ${data?.quantity} )  ` 
+        )
+      })
+    
     };
     
   });

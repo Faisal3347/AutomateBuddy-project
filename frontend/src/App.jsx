@@ -3,6 +3,7 @@ import { OrderProvider } from "./context/OrderContext";
 import Home from "./pages/Home";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import Header from './components/Header';
+import OrderSummary from "./components/OrderSummary";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/history" element={<OrderHistoryPage />} />
+          <Route path="/ordersummary" element={<OrderSummary />} />
         </Routes>
       </Router>
     </OrderProvider>

@@ -1,14 +1,17 @@
 import { useContext, useState } from "react";
 import { OrderContext } from "../context/OrderContext";
 import { saveOrder } from "../utils/LocalStorageHelper";
-import CommonTable from "./Common/CommonTable"; 
-import CommonButton from "./Common/CommonButton"; 
+import CommonTable from "./Common/CommonTable";
+import CommonButton from "./Common/CommonButton";
+import { Box } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 export default function OrderSummary() {
-  const { order, updateQuantity, removeItem, setOrder } = useContext(OrderContext); 
+  const { order, updateQuantity, removeItem, setOrder,emptyOrders } = useContext(OrderContext);
   const [successMessage, setSuccessMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [discountType, setDiscountType] = useState(""); // "flat" or "percentage"
+  const navigate=useNavigate()
 
   // Generate unique Order ID
   const generateOrderID = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -42,16 +45,12 @@ export default function OrderSummary() {
     };
 
     saveOrder(newOrder);
-
-    // ✅ Clear cart
-    setOrder([]);
-
-    // ✅ Reset discount selection
+    emptyOrders()
     setDiscountType("");
 
-    // ✅ Show success message
     setSuccessMessage(`✅ Order placed! Order ID: ${orderID}`);
     setIsError(false);
+    navigate('/')
   };
 
   const tableData = order.map((item) => ({
@@ -77,46 +76,61 @@ export default function OrderSummary() {
   }));
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2>Order Summary</h2>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100vw",
+        overflow: "auto",
+        marginTop: '30px'
 
-      {order.length > 0 ? (
-        <CommonTable data={tableData} />
-      ) : (
-        <p style={{ color: "red" }}>No items in the order.</p>
-      )}
+      }}
+    >
 
-      {/* Discount Selection */}
-      {order.length > 0 && (
-        <div style={{ margin: "15px 0" }}>
-          <label style={{ marginRight: "10px", fontWeight: "bold" }}>Select Discount:</label>
-          <input type="radio" id="flat" name="discount" value="flat" checked={discountType === "flat"} onChange={() => setDiscountType("flat")} />
-          <label htmlFor="flat" style={{ marginRight: "10px" }}>$5 Off</label>
+      <div style={{ textAlign: "center" }}>
+        <h2>Order Summary</h2>
 
-          <input type="radio" id="percentage" name="discount" value="percentage" checked={discountType === "percentage"} onChange={() => setDiscountType("percentage")} />
-          <label htmlFor="percentage">10% Off</label>
-        </div>
-      )}
+        {order.length > 0 ? (
+          <CommonTable data={tableData} />
+        ) : (
+          <p style={{ color: "red" }}>No items in the order.</p>
+        )}
 
-      {/* Pricing Breakdown */}
-      {order.length > 0 && (
-        <>
-          <h3>Subtotal: ${subtotal.toFixed(2)}</h3>
-          <h4 style={{ color: "red" }}>Discount: -${totalDiscount.toFixed(2)}</h4>
-          <h2 style={{ color: "green" }}>Final Total: ${finalTotal.toFixed(2)}</h2>
-        </>
-      )}
+        {/* Discount Selection */}
+        {order.length > 0 && (
+          <div style={{ margin: "15px 0" }}>
+            <label style={{ marginRight: "10px", fontWeight: "bold" }}>Select Discount:</label>
+            <input type="radio" id="flat" name="discount" value="flat" checked={discountType === "flat"} onChange={() => setDiscountType("flat")} />
+            <label htmlFor="flat" style={{ marginRight: "10px" }}>$5 Off</label>
 
-      <CommonButton onClick={handleCheckout} color="success" height="40px" width="150px">
-        Place Order
-      </CommonButton>
+            <input type="radio" id="percentage" name="discount" value="percentage" checked={discountType === "percentage"} onChange={() => setDiscountType("percentage")} />
+            <label htmlFor="percentage">10% Off</label>
+          </div>
+        )}
 
-      {/* Success or Error Message */}
-      {successMessage && (
-        <p style={{ color: isError ? "red" : "green", marginTop: "10px", fontWeight: "bold" }}>
-          {successMessage}
-        </p>
-      )}
-    </div>
+        {/* Pricing Breakdown */}
+        {order.length > 0 && (
+          <>
+            <h3>Subtotal: ${subtotal.toFixed(2)}</h3>
+            <h4 style={{ color: "red" }}>Discount: -${totalDiscount.toFixed(2)}</h4>
+            <h2 style={{ color: "green" }}>Final Total: ${finalTotal.toFixed(2)}</h2>
+          </>
+        )}
+
+        <CommonButton onClick={handleCheckout} color="success" height="40px" width="150px">
+          Place Order
+        </CommonButton>
+
+        {/* Success or Error Message */}
+        {successMessage && (
+          <p style={{ color: isError ? "red" : "green", marginTop: "10px", fontWeight: "bold" }}>
+            {successMessage}
+          </p>
+        )}
+      </div>
+    </Box>
+
   );
 }

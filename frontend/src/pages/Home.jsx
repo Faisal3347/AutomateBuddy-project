@@ -12,25 +12,41 @@ import { useContext } from "react";
 import { OrderContext } from "../context/OrderContext";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Badge from '@mui/material/Badge';
+import MailIcon from '@mui/icons-material/Mail';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Home() {
-  const { addItem } = useContext(OrderContext);
+  const { addItem, order } = useContext(OrderContext);
+  const navigae=useNavigate()
 
+  console.log(order, 'aaaaaaaaaaaaaa')
+  const handleOrderSummary=()=>{
+    navigae('/ordersummary')
+  }
   return (
-    <Box 
-      sx={{ 
-        display: "flex", 
-        flexDirection: "column", 
-        alignItems: "center", 
-        justifyContent: "center", 
-        width:"100vw",
-        overflow:"auto",
-        marginTop:'30px'
-       
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100vw",
+        overflow: "auto",
+        marginTop: '30px'
+
       }}
     >
       <h1>List of Product</h1>
-      
+      <div style={{ display: "flex", justifyContent: "flex-end", width: "60%",cursor:'pointer' }} onClick={handleOrderSummary}>
+        <Badge badgeContent={order?.length ?? 0} color="primary">
+          <ProductionQuantityLimitsIcon color="action" fontSize="large" />
+        </Badge>
+      </div>
+
+
       {/* Centered Table */}
       <TableContainer component={Paper} sx={{ width: "60%", textAlign: "center" }}>
         <Table sx={{ minWidth: 650 }} aria-label="menu table">
@@ -49,9 +65,9 @@ export default function Home() {
                 <TableCell align="right">${item.price}</TableCell>
                 <TableCell align="right">{item.category}</TableCell>
                 <TableCell align="right">
-                  <Button 
-                    variant="contained" 
-                    color="primary" 
+                  <Button
+                    variant="contained"
+                    color="primary"
                     onClick={() => addItem(item)}
                   >
                     Add to Order
@@ -64,7 +80,7 @@ export default function Home() {
       </TableContainer>
 
       {/* Order Summary Section */}
-      <OrderSummary />
+      {/* <OrderSummary /> */}
     </Box>
   );
 }
