@@ -6,13 +6,15 @@ export default function OrderHistoryPage() {
   const orders = getOrders() || []; 
 
   const tableData = orders.map((order) => {
-    const orderDate = new Date(order.date); 
+    const orderDate = new Date(order.date);
 
     return {
       OrderID: order.id,
-      Date: orderDate.toLocaleDateString(), 
+      Date: orderDate.toLocaleDateString(),
       Time: orderDate.toLocaleTimeString(),
-      "Total Items": order.items.length
+      "Total Items": Array.isArray(order.items) 
+        ? order.items.reduce((sum, item) => sum + (item.quantity || 0), 0) 
+        : 0, // ✅ Safely handle non-array cases
     };
   });
 
