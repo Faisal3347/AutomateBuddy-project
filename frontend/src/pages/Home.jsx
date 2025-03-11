@@ -29,7 +29,7 @@ export default function Home() {
        
       }}
     >
-      <h1>Restaurant POS</h1>
+      <h1>List of Product</h1>
       
       {/* Centered Table */}
       <TableContainer component={Paper} sx={{ width: "60%", textAlign: "center" }}>

@@ -7,20 +7,22 @@ import CommonButton from "./Common/CommonButton";
 export default function OrderSummary() {
   const { order, updateQuantity, removeItem } = useContext(OrderContext);
   const [successMessage, setSuccessMessage] = useState("");
+  const [isError, setIsError] = useState(false); 
 
   const total = order.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleCheckout = () => {
     if (order.length === 0) {
       setSuccessMessage("⚠️ Your cart is empty! Add some items before checkout.");
+      setIsError(true); 
       return;
     }
 
     saveOrder(order);
     setSuccessMessage("✅ Order placed successfully!");
+    setIsError(false); 
   };
 
-  // Transform order data for CommonTable
   const tableData = order.map((item) => ({
     "Item Name": item.name,
     Price: `$${item.price}`,
@@ -28,7 +30,6 @@ export default function OrderSummary() {
       <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
         <CommonButton 
           onClick={() => updateQuantity(item.id, item.quantity + 1)} 
-          // color="success" 
           height="35px" 
           width="35px"
           borderRadius="50%"
@@ -38,7 +39,6 @@ export default function OrderSummary() {
         <span>{item.quantity}</span>
         <CommonButton 
           onClick={() => updateQuantity(item.id, item.quantity - 1)} 
-          // color="warning" 
           height="35px" 
           width="35px"
           borderRadius="50%"
@@ -76,8 +76,13 @@ export default function OrderSummary() {
         Place Order
       </CommonButton>
 
+      {/* Success or Error Message */}
       {successMessage && (
-        <p style={{ color: "green", marginTop: "10px", fontWeight: "bold" }}>
+        <p style={{ 
+          color: isError ? "red" : "green", 
+          marginTop: "10px", 
+          fontWeight: "bold" 
+        }}>
           {successMessage}
         </p>
       )}

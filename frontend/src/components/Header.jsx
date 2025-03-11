@@ -24,7 +24,7 @@ export default function Header() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Restaurant POS
+            Restaurant Pint of Sale
           </Typography>
 
           {/* Navigation Buttons */}

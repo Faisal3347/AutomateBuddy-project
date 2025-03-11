@@ -2,12 +2,10 @@ import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 function CommonTable({ data = [] }) {
-  // Ensure data is an array before mapping
   if (!Array.isArray(data) || data.length === 0) {
     return <p style={{ textAlign: "center" }}>No data available</p>;
   }
 
-  // Extract column names dynamically from object keys
   const columns = Object.keys(data[0]);
 
   return (
