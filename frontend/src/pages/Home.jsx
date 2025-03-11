@@ -24,7 +24,8 @@ export default function Home() {
         alignItems: "center", 
         justifyContent: "center", 
         height: "100vh" ,
-        width:"99vw"
+        width:"99vw",
+        overflow:"auto"
       }}
     >
       <h1>Restaurant POS</h1>
