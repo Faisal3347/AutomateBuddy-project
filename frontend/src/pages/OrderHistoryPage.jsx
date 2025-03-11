@@ -18,8 +18,9 @@ export default function OrderHistoryPage() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-       marginLeft:"25rem",
-        padding:"1rem"
+        padding:"1rem",
+        marginTop:"10px",
+        
       }}
     >
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Order History</h1>
