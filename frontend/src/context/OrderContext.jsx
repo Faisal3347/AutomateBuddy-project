@@ -16,8 +16,12 @@ export const OrderProvider = ({ children }) => {
   const removeItem = (id) => setOrder(order.filter((item) => item.id !== id));
   const updateQuantity = (id, qty) => setOrder(order.map((item) => item.id === id ? { ...item, quantity: qty } : item));
 
+  const emptyOrders=()=>{
+    setOrder([])
+  }
+
   return (
-    <OrderContext.Provider value={{ order, addItem, removeItem, updateQuantity }}>
+    <OrderContext.Provider value={{ order, addItem, removeItem, updateQuantity,emptyOrders }}>
       {children}
     </OrderContext.Provider>
   );
